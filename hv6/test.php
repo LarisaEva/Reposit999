@@ -1,3 +1,11 @@
+<?php if (isset($_GET['form_error_code'])): ?>
+    <?php require_once __DIR__ . 'error_codes.php'; ?>
+    <div style="margin-bottom: 15px; padding: 15px; background-color: red; color: white;">
+        <?php echo FORM_ERROR_MESSAGES[(int)$_GET['form_error_code']]; ?>
+    </div>
+<?php endif ?>
+
+
 <?php 
 
 for ($i = 0; $i < 12; $i++) {
