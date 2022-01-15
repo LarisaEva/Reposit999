@@ -6,43 +6,44 @@
 <?php endif ?>
 
 
-<?php 
+<?php
+
+function calculate($a, $b, $operation)
+{
+    if (!is_numeric($a) || !is_numeric($b)) {
+        return null;
+    }
+
+    return match ($operation) {
+        '+' => $a + $b,
+        '-' => $a - $b,
+        '*' => $a * $b,
+        '/' => $a / $b
+    };
+}
+
+$operations = ['+', '-', '*', '/'];
 
 for ($i = 0; $i < 12; $i++) {
-	$array[$i][0] = random_int(-100, 100);
-	$array[$i][1] = random_int(-100, 100);
+	$array[$i]['a'] = random_int(-100, 100);
+	$array[$i]['b'] = random_int(-100, 100);
 }
 
-for ($i = 0; $i < 3; $i++) {
-	$array[$i][2] = $array[$i][0] + $array[$i][1];
-	$array[$i][3] = $array[$i][0] . ' + ';
-}
-
-for ($i = 3; $i < 6; $i++) {
-	$array[$i][2] = $array[$i][0] - $array[$i][1];
-	$array[$i][3] = $array[$i][0] . ' - ';
-}
-
-for ($i = 6; $i < 9; $i++) {
-	$array[$i][2] = $array[$i][0] * $array[$i][1];
-	$array[$i][3] = $array[$i][0] . ' * ';
-}
-
-for ($i = 9; $i < 12; $i++) {
-	$array[$i][2] = $array[$i][0] / $array[$i][1];
-	$array[$i][3] = $array[$i][0] . ' / ';
-}
-
-
-for ($i = 0; $i < 12; $i++) {
-	$array[$i][2] = round($array[$i][2], 2);
-	if ($array[$i][1] < 0 ) {
-		$array[$i][3] .= ' ( ' . $array[$i][1] . ' ) ';
-	} else {
-		$array[$i][3] .= $array[$i][1];
+$number = 0;
+for ($i = 0; $i < count($operations); $i++) {
+	for ($j = 0; $j < 3; $j++) {
+		$array[$number]['total'] = round(calculate($array[$number]['a'],$array[$number]['b'], $operations[$i]), 2);
+		$array[$number]['operation'] = $array[$number]['a'] . ' ' . $operations[$i] . ' ';
+		if ($array[$number]['b'] < 0 ) {
+			$array[$number]['operation'] .= '( ' . $array[$number]['b'] . ' )';
+		} else {
+			$array[$number]['operation'] .= $array[$number]['b'];
+		}
+		$array[$number]['operation'] .= ' = ';
+		$number++;
 	}
-	$array[$i][3] .= ' = ';
 }
+
 ?>
 
 
@@ -52,7 +53,8 @@ for ($i = 0; $i < 12; $i++) {
 <table>
 
 <?php for ($i = 0; $i < 12; $i++) : ?>
-	<p><?php echo $array[$i][3] ?><input type="text" name="result[<?php echo $i ?>][<?php echo $array[$i][2] ?>]" required="required"></p>
+	<p><?php echo $array[$i]['operation'] ?><input type="text" name="operation[<?php echo $i ?>]?>]" required="required"></p>
+ 	<input type="hidden" id="result[<?php echo $i ?>]" name="result[<?php echo $i ?>]" value="<?php echo $array[$i]['total'] ?>">
 <?php endfor; ?>
 	<button type="submit">
         	Пройти тест

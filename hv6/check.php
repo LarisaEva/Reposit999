@@ -17,18 +17,18 @@ if (empty($_POST['result']) || count($_POST['result']) != 12) {
 $trueResult = 0;
 $falseResult = 0;
 for ($i = 0; $i < 12; $i++) {
-	foreach ($_POST['result'][$i] as $key => $value) {
-		echo 'Задача № ' . $i + 1 . '. Ваш ответ:  ' . $value . '. Правильный ответ:  ' . $key . '. ';
-		if ($key == $value) {
-			echo 'Ваш ответ - правильный.';
-			$trueResult++;
-		} else {
-			echo 'Ваш ответ - неправильный.';
-			$falseResult++;
-		}
-		echo '</br>';
+	echo 'Задача № ' . $i + 1 . '. Ваш ответ:  ' . $_POST['operation'][$i] . '. Правильный ответ:  ' . $_POST['result'][$i] . '. ';
+	if ($_POST['result'][$i] == $_POST['operation'][$i]) {
+		echo 'Ваш ответ - правильный.';
+		$trueResult++;
+	} else {
+		echo 'Ваш ответ - неправильный.';
+		$falseResult++;
 	}
+	echo '</br>';
 }
+
+
 echo 'Вы решили ' . $trueResult . ' задач правильно и ' . $falseResult . ' задач неправильно.</br>';
 echo 'Ваша оценка - ' . round(5 * $trueResult / 12) . ' / 5.</br>';
 ?>
